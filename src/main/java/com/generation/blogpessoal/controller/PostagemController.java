@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -64,8 +65,8 @@ public class PostagemController {
 	@PutMapping
 	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
 		
-		if(postagemRepository.existsById(postagem.getId())) {
-		if(temaRepository.existsById(postagem.getTema().getId()))
+		if(postagemRepository.existsById(postagem.getId())) {         //aqui ele confere se o id da postagem existe
+		if(temaRepository.existsById(postagem.getTema().getId()))     //confere  
 		
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(postagemRepository.save(postagem));
@@ -75,6 +76,7 @@ public class PostagemController {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
 		Optional<Postagem> postagem = postagemRepository.findById(id);
