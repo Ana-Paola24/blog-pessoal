@@ -20,7 +20,7 @@ import jakarta.validation.constraints.Size;
 public class Postagem {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //aqui cria o auto_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id;
 	
 	@NotBlank(message = "O atributo título é Obrigatório!")
@@ -37,6 +37,10 @@ public class Postagem {
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -76,6 +80,14 @@ public class Postagem {
 
 	public void setTema(Tema tema) {
 		this.tema = tema;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 }

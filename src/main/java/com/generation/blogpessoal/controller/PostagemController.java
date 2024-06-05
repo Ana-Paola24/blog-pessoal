@@ -24,18 +24,18 @@ import com.generation.blogpessoal.repository.TemaRepository;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/postagens")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController 
+@RequestMapping("/postagens")  
+@CrossOrigin(origins = "*", allowedHeaders = "*")  
 public class PostagemController {
 
 	@Autowired 
-	private PostagemRepository postagemRepository;
+	private PostagemRepository postagemRepository;  
 	
 	@Autowired
-	private TemaRepository temaRepository;
+	private TemaRepository temaRepository;   
 	
-	@GetMapping
+	@GetMapping  
 	public ResponseEntity<List<Postagem>> getAll(){
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
@@ -65,8 +65,8 @@ public class PostagemController {
 	@PutMapping
 	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
 		
-		if(postagemRepository.existsById(postagem.getId())) {         //aqui ele confere se o id da postagem existe
-		if(temaRepository.existsById(postagem.getTema().getId()))     //confere  
+		if(postagemRepository.existsById(postagem.getId())) {       
+		if(temaRepository.existsById(postagem.getTema().getId()))     
 		
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(postagemRepository.save(postagem));
