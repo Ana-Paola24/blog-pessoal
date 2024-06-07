@@ -2,6 +2,8 @@ package com.generation.blogpessoal.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,29 +18,41 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name="tb_usuarios")
+@Table(name = "tb_usuarios")
 public class Usuario {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotNull(message="Atributo NOME é obrigatório!")
+
+	@NotNull(message = "Atributo NOME é obrigatório!")
 	private String nome;
-	
-	@NotNull(message="Atributo EMAIL é obrigatório!")
-	@Email(message="Atributo deve ser um e-mail válido")
+
+	@NotNull(message = "Atributo EMAIL é obrigatório!")
+	@Email(message = "Atributo deve ser um e-mail válido")
 	private String usuario;
-	
-	@NotBlank(message="O atributo SENHA é obrigatório!")
-	@Size(min=8, message= "A SENHA deve ter no mínimo 8 caracteres!")
+
+	@NotBlank(message = "O atributo SENHA é obrigatório!")
+	@Size(min = 8, message = "A SENHA deve ter no mínimo 8 caracteres!")
 	private String senha;
-	
+
 	@Size(max = 5000, message = "A FOTO deve ter no máximo 5000 caracteres!")
 	private String foto;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade=CascadeType.REMOVE)
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+
+	public Usuario() {
+	}
 
 	public Long getId() {
 		return id;
@@ -87,7 +101,5 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-	
-	
-	
+
 }
